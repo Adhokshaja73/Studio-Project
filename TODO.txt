@@ -1,0 +1,8 @@
+1. Create gmail account
+2. Create github repo/account
+3. Create AWS account
+4. Create Database server
+5. Create Storage buckets for the media files and configure the same for storing photos and posts. 
+6. Create location field and google maps API (need research) IMPORTANT since we need to book locations and all
+
+
