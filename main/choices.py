@@ -14,3 +14,8 @@ PAYMENT_STATUS_CHOICES = (
             ,(2, "Pending")
             ,(3, "Unpaid")
 )
+
+USER_TYPE = (
+    (1, "Studio Owner")
+    ,(2, "User")  # user is defined as anyone who is NOT a studio owner. 
+)

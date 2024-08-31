@@ -4,10 +4,17 @@ from datetime import datetime
 from .choices import *
 # Create your models here.
 
+
+class UserType(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    userType = models.IntegerField(choices=USER_TYPE, default=2)
+
+    def __str__(self) -> str:
+        return self.user.username + " - " + self.userType
+
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     profilePhoto = models.ImageField(upload_to="profile_photos")
-    skills = models.TextField(max_length=200)   # TODO need to add validations in the front end, store data as JSON or something.
     location = models.TextField(max_length=100) # TODO actual location from google.
     
     def __str__(self) -> str:
@@ -16,7 +23,7 @@ class Profile(models.Model):
 
 
 class Studio(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.TextField(max_length=100)
     description = models.TextField(max_length=1000)
     location = models.TextField(max_length=100) # TODO actual location from google.
@@ -45,7 +52,7 @@ class BookingSessionUserRelation(models.Model):
 
 class BookingSessionPayment(models.Model):
     bookingSession = models.ForeignKey(BookingSession, on_delete=models.DO_NOTHING)
-    amount = models.DecimalField(decimal_places=2)
+    amount = models.DecimalField(decimal_places=2, max_digits=10)
     status = models.IntegerField(choices=PAYMENT_STATUS_CHOICES)
     paymentDateTime = models.DateTimeField(default=datetime.now())
     

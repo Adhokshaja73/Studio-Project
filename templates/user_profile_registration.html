@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <title>User Profile Registration</title>
+</head>
+
+<body>
+    <!-- Has 2 forms. One for registering users and the other one for registering the studios -->
+
+    <!-- User form div -->
+    <div>
+        <h2>User Registration</h2>
+        <form method="post" enctype="multipart/form-data">
+            <!-- User registration form asks for name which is a mandatory field. Location and interests which are optional -->
+            <label for="user-name">Name:</label>
+            <input type="text" id="user-name" name="name" required>
+            <br>
+            <label for="user-location">Location:</label>
+            <input type="text" id="user-location" name="location">
+            <br>
+            <label for="user-interests">Interests:</label>
+            <input type="text" id="user-interests" name="interests">
+            <br>
+            <label for="user-image">Profile Picture:</label>
+            <input type="file" id="user-image" name="profile_picture" accept="image/*">
+            <br>
+            <button type="button" onclick="userProfileSubmit" id="user_reg_submit">Register</button>
+        </form>
+    </div>
+
+    <!-- Studio form div -->
+    <div>
+        <h2>Studio Registration</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="studio-name">Studio Name:</label>
+            <input type="text" id="studio-name" name="name" required>
+            <br>
+            <label for="studio-phone">Phone Number:</label>
+            <input type="tel" id="studio-phone" name="phone" required>
+            <br>
+            <label for="studio-email">Business Email:</label>
+            <input type="email" id="studio-email" name="email" required>
+            <br>
+            <label for="studio-location">Exact Location:</label>
+            <input type="text" id="studio-location" name="location" required>
+            <br>
+            <label for="studio-image">Studio Image:</label>
+            <input type="file" id="studio-image" name="studio_image" accept="image/*">
+            <br>
+            <p>Our team will contact you for verification.</p>
+            <button type="button" id="studio_reg_submit" onclick="studioProfileSubmit()">Register Studio</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    function studioProfileSubmit() {
+        $.ajax({
+            type: 'POST',
+            url: "studio_register",
+            data:
+            {
+                  "studio_name" : document.getElementById('studio-name').value
+                , "studio_phone" : document.getElementById('studio-phone').value
+                , "studio_email" : document.getElementById('studio-email').value
+                , "studio_image" : document.getElementById('studio-image').value
+                , csrfmiddlewaretoken: $('{% csrf_token %}').val()
+
+            },
+            success: function (response) {
+                console.log(response)
+            },
+        })
+        }
+
+    function userProfileSubmit() {
+
+    }
+
+</script>
+
+</html>
