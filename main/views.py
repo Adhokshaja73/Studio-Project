@@ -43,7 +43,7 @@ def createStudioProfile(request):
     elif(list(request.POST.keys()) != dataList):
         return(JsonResponse({'status' : 'error', 'data' : {'message' : 'Invalid arguments'}}))
     else:
-       return(JsonResponse({'status' : 'error', 'data' : {'message' : 'Invalid arguments'}}))7
+       return(JsonResponse({'status' : 'error', 'data' : {'message' : 'Invalid arguments'}}))
 # accepts post request only returns JSON. Handle the redirect in HTML.
 def createUserProfile(request):
     pass
