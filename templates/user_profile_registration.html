@@ -15,20 +15,18 @@
     <div>
         <h2>User Registration</h2>
         <form method="post" enctype="multipart/form-data">
-            <!-- User registration form asks for name which is a mandatory field. Location and interests which are optional -->
-            <label for="user-name">Name:</label>
+            {% csrf_token %}
+             <label for="user-name">Name:</label>
             <input type="text" id="user-name" name="name" required>
             <br>
             <label for="user-location">Location:</label>
             <input type="text" id="user-location" name="location">
             <br>
-            <label for="user-interests">Interests:</label>
-            <input type="text" id="user-interests" name="interests">
-            <br>
             <label for="user-image">Profile Picture:</label>
             <input type="file" id="user-image" name="profile_picture" accept="image/*">
+            <img id = "user_image_preview">
             <br>
-            <button type="button" onclick="userProfileSubmit" id="user_reg_submit">Register</button>
+            <button type="button" onclick="userProfileSubmit()" id="user_reg_submit">Register</button>
         </form>
     </div>
 
@@ -39,6 +37,9 @@
             {% csrf_token %}
             <label for="studio-name">Studio Name:</label>
             <input type="text" id="studio-name" name="name" required>
+            <br>
+            <label for="studio-desc">Description :</label>
+            <input type="text" id="studio-desc" name="name" required>
             <br>
             <label for="studio-phone">Phone Number:</label>
             <input type="tel" id="studio-phone" name="phone" required>
@@ -51,6 +52,7 @@
             <br>
             <label for="studio-image">Studio Image:</label>
             <input type="file" id="studio-image" name="studio_image" accept="image/*">
+            <img id = "studio_image_preview">
             <br>
             <p>Our team will contact you for verification.</p>
             <button type="button" id="studio_reg_submit" onclick="studioProfileSubmit()">Register Studio</button>
@@ -66,9 +68,11 @@
             data:
             {
                   "studio_name" : document.getElementById('studio-name').value
+                , "studio_desc" : document.getElementById('studio-desc').value
                 , "studio_phone" : document.getElementById('studio-phone').value
                 , "studio_email" : document.getElementById('studio-email').value
-                , "studio_image" : document.getElementById('studio-image').value
+                , "studio_location" : document.getElementById('studio-location').value
+                , "studio_image" : document.getElementById('studio_image_preview').src
                 , csrfmiddlewaretoken: $('{% csrf_token %}').val()
 
             },
@@ -79,8 +83,60 @@
         }
 
     function userProfileSubmit() {
+        $.ajax({
+            type: 'POST',
+            url: "user_register",
+            data:
+            {
+                  "user_name" :     document.getElementById('user-name').value
+                , "user_location" : document.getElementById('user-location').value
+                , "user_image" :    document.getElementById('user_image_preview').src
+                , csrfmiddlewaretoken: $('{% csrf_token %}').val()
 
+            },
+            success: function (response) {
+                console.log(response)
+            },
+        })
     }
+
+    document.getElementById('studio-image').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var img = document.getElementById('studio_image_preview');
+            img.src = e.target.result;
+            img.style.display = 'block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            var img = document.getElementById('studio_image_preview');
+            img.src = '';
+            img.style.display = 'none';
+        }
+    });
+
+    document.getElementById('user-image').addEventListener('change', function(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            var img = document.getElementById('user_image_preview');
+            img.src = e.target.result;
+            img.style.display = 'block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            var img = document.getElementById('user_image_preview');
+            img.src = '';
+            img.style.display = 'none';
+        }
+    });
 
 </script>
 

@@ -19,3 +19,5 @@ USER_TYPE = (
     (1, "Studio Owner")
     ,(2, "User")  # user is defined as anyone who is NOT a studio owner. 
 )
+
+VERIFICATION_STATUS = ((1,"Pending Verification"), (2,"Verified"), (3,"Verification Revoked"))

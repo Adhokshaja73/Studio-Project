@@ -1,11 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
     <title>Studio Home</title>
 </head>
+
 <body>
-    
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: "get_studio_calendar_owner",
+            data:
+            {
+                "start_date": "2024-08-25"
+                , "end_date": "2024-12-25"
+
+            },
+            success: function (response) {
+                console.log(response)
+                console.log("GOT")
+            },
+        })
+    </script>
 </body>
+
 </html>
